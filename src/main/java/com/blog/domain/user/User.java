@@ -1,5 +1,6 @@
 package com.blog.domain.user;
 
+import com.blog.domain.enumeration.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,17 @@ public class User {
     @Column(name="last_name")
     private String lastName;
 
+    @Column(name="password")
+    private String password;
+
     @Column(name="email", nullable = false)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="fk_user_profile_id")
+    private UserProfile userProfile;
+
 }
