@@ -1,5 +1,6 @@
 package com.blog.domain.blog;
 
+import com.blog.domain.auditable.Auditable;
 import com.blog.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "user")
-public class Blog {
+public class Blog extends Auditable {
    @Id
    @GeneratedValue
    @Column(name="blog_id")
