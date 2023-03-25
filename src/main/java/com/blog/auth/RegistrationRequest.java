@@ -1,22 +1,18 @@
-package com.blog.dto.user;
+package com.blog.auth;
 
-import com.blog.domain.enumeration.Role;
-import com.blog.domain.enumeration.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-public class UserDTO {
-    private Long id;
+@AllArgsConstructor
+@NoArgsConstructor
+public class RegistrationRequest {
     private String firstName;
     private String lastName;
     private String email;
-    private Role role;
+    private String password;
     private String address;
     private String municipalityName;
     private String phoneNumber;
-    private UserStatus userStatus;
 }

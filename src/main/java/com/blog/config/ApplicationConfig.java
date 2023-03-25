@@ -1,5 +1,6 @@
 package com.blog.config;
 
+import com.blog.domain.user.UserProfile;
 import com.blog.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,5 +44,10 @@ public class ApplicationConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public UserProfile userProfile(){
+        return new UserProfile();
     }
 }

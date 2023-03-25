@@ -1,7 +1,7 @@
 package com.blog.domain.blog;
 
 import com.blog.domain.auditable.Auditable;
-import com.blog.domain.user.User;
+import com.blog.domain.user.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "blog_tbl")
 public class Blog extends Auditable {
    @Id
    @GeneratedValue
@@ -27,9 +27,6 @@ public class Blog extends Auditable {
    @Column(name="description")
    private String description;
 
-   @Column(name="blog_code")
-   private Long blogCode;
-
    @Column(name="image_url")
    private String imageUrl;
 
@@ -38,5 +35,5 @@ public class Blog extends Auditable {
    private List<Comment> commentList = new ArrayList<>();
 
    @ManyToOne
-   private User user;
+   private AppUser appUser;
 }
