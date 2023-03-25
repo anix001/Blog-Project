@@ -12,9 +12,9 @@ public class BlogDTOMapper implements Function<Blog, BlogDTO> {
                 blog.getCreatedDate(),
                 blog.getLastModifiedBy(),
                 blog.getLastModifiedDate(),
+                blog.getId(),
                 blog.getTitle(),
                 blog.getDescription(),
-                blog.getBlogCode(),
                 blog.getImageUrl(),
                 blog.getCommentList()
         );

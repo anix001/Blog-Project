@@ -2,6 +2,7 @@ package com.blog.domain.user;
 
 import com.blog.domain.enumeration.Role;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,9 +16,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
-@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
-public class User implements UserDetails {
+@Table(name = "app_user", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
+public class AppUser implements UserDetails {
     @Id
     @GeneratedValue
     @Column(name = "user_id")
@@ -39,7 +41,7 @@ public class User implements UserDetails {
     private Role role;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="fk_user_profile_id")
+    @JoinColumn(name="fk_user_profile_id", referencedColumnName = "id")
     private UserProfile userProfile;
 
     @Override

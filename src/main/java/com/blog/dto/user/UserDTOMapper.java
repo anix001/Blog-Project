@@ -1,23 +1,24 @@
 package com.blog.dto.user;
 
-import com.blog.domain.user.User;
+import com.blog.domain.user.AppUser;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
 
 @Service
-public class UserDTOMapper implements Function<User, UserDTO> {
+public class UserDTOMapper implements Function<AppUser, UserDTO> {
     @Override
-    public UserDTO apply(User user) {
+    public UserDTO apply(AppUser appUser) {
         return new UserDTO(
-                user.getFirstName(),
-                user.getFirstName(),
-                user.getEmail(),
-                user.getRole(),
-                user.getUserProfile().getAddress(),
-                user.getUserProfile().getMunicipalityName(),
-                user.getUserProfile().getProfileCode(),
-                user.getUserProfile().getPhoneNumber()
+                appUser.getId(),
+                appUser.getFirstName(),
+                appUser.getFirstName(),
+                appUser.getEmail(),
+                appUser.getRole(),
+                appUser.getUserProfile().getAddress(),
+                appUser.getUserProfile().getMunicipalityName(),
+                appUser.getUserProfile().getPhoneNumber(),
+                appUser.getUserProfile().getUserStatus()
         );
     }
 }
