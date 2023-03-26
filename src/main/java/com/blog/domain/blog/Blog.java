@@ -3,14 +3,16 @@ package com.blog.domain.blog;
 import com.blog.domain.auditable.Auditable;
 import com.blog.domain.user.AppUser;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

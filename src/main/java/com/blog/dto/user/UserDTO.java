@@ -2,13 +2,12 @@ package com.blog.dto.user;
 
 import com.blog.domain.enumeration.Role;
 import com.blog.domain.enumeration.UserStatus;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class UserDTO {
     private Long id;
     private String firstName;
