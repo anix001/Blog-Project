@@ -1,10 +1,10 @@
 package com.blog.service.impl;
 
-import com.blog.domain.blog.Blog;
-import com.blog.domain.blog.Comment;
-import com.blog.domain.user.AppUser;
-import com.blog.dto.blog.BlogDTO;
-import com.blog.dto.blog.BlogDTOMapper;
+import com.blog.domain.Blog;
+import com.blog.domain.Comment;
+import com.blog.domain.AppUser;
+import com.blog.domain.dto.BlogDTO;
+import com.blog.service.mapper.BlogDTOMapper;
 import com.blog.repository.BlogRepository;
 import com.blog.service.BlogService;
 import com.blog.service.UserService;
@@ -74,10 +74,16 @@ public class BlogServiceImpl implements BlogService {
                 optionalBlog.setLastModifiedBy(user.getEmail());
                 optionalBlog.setLastModifiedDate(new Date());
             }
+
             blogRepository.save(optionalBlog);
             BlogDTO blogDTO = blogDTOMapper.apply(optionalBlog);
             return  blogDTO;
         }else {
+            AppUser user1 = new AppUser();
+            user1.setId(user.getId());
+            blog.setCreatedBy(user.getEmail());
+            blog.setCreatedDate(new Date());
+            blog.setAppUser(user1);
             blogRepository.save(blog);
             BlogDTO blogDTO = blogDTOMapper.apply(blog);
             return  blogDTO;

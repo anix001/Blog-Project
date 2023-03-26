@@ -1,8 +1,8 @@
 package com.blog.service;
 
-import com.blog.domain.blog.Blog;
-import com.blog.domain.blog.Comment;
-import com.blog.dto.blog.BlogDTO;
+import com.blog.domain.Blog;
+import com.blog.domain.Comment;
+import com.blog.domain.dto.BlogDTO;
 
 import java.util.List;
 

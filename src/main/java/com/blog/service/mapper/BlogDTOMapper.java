@@ -1,6 +1,7 @@
-package com.blog.dto.blog;
+package com.blog.service.mapper;
 
-import com.blog.domain.blog.Blog;
+import com.blog.domain.Blog;
+import com.blog.domain.dto.BlogDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;

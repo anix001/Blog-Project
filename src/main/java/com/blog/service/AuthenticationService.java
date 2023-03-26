@@ -3,7 +3,7 @@ package com.blog.service;
 import com.blog.auth.AuthenticationRequest;
 import com.blog.auth.AuthenticationResponse;
 import com.blog.auth.RegistrationRequest;
-import com.blog.domain.user.AppUser;
+import com.blog.domain.AppUser;
 
 public interface AuthenticationService {
     AuthenticationResponse authResponseGenerator(AppUser user);

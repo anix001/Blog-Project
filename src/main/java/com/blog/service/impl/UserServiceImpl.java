@@ -2,9 +2,9 @@ package com.blog.service.impl;
 
 import com.blog.auth.AuthenticationResponse;
 import com.blog.domain.enumeration.UserStatus;
-import com.blog.domain.user.AppUser;
-import com.blog.dto.user.UserDTO;
-import com.blog.dto.user.UserDTOMapper;
+import com.blog.domain.AppUser;
+import com.blog.domain.dto.UserDTO;
+import com.blog.service.mapper.UserDTOMapper;
 import com.blog.repository.UserRepository;
 import com.blog.service.AdminService;
 import com.blog.service.JwtService;

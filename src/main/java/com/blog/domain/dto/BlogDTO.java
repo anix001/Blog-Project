@@ -1,7 +1,6 @@
-package com.blog.dto.blog;
+package com.blog.domain.dto;
 
-import com.blog.domain.blog.Comment;
-import com.blog.dto.auditable.AuditableDTO;
+import com.blog.domain.Comment;
 import lombok.*;
 
 import java.util.Date;
