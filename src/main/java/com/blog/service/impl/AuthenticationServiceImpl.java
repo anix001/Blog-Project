@@ -6,7 +6,6 @@ import com.blog.auth.RegistrationRequest;
 import com.blog.domain.enumeration.Role;
 import com.blog.domain.enumeration.UserStatus;
 import com.blog.domain.user.AppUser;
-import com.blog.domain.user.UserProfile;
 import com.blog.dto.user.UserDTO;
 import com.blog.dto.user.UserDTOMapper;
 import com.blog.repository.UserRepository;
@@ -24,7 +23,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserDTOMapper userDTOMapper;
 
-    public AuthenticationServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, UserProfile userProfile, UserDTOMapper userDTOMapper) {
+    public AuthenticationServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager,  UserDTOMapper userDTOMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
@@ -34,23 +33,25 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse register(RegistrationRequest request) {
-        UserProfile userProfile1 = new UserProfile(request.getAddress(), request.getMunicipalityName(), request.getPhoneNumber(), UserStatus.PENDNING);
-       var user = AppUser.builder()
-               .firstName(request.getFirstName())
-               .lastName(request.getLastName())
-               .email(request.getEmail())
-               .password(passwordEncoder.encode(request.getPassword()))
-               .role(Role.USER)
-               .userProfile(userProfile1)
-               .build();
+        AppUser user = AppUser.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.USER)
+                .address(request.getAddress())
+                .municipalityName(request.getMunicipalityName())
+                .phoneNumber(request.getPhoneNumber())
+                .userStatus(UserStatus.PENDING)
+                .build();
 
        userRepository.save(user);
 
-//       var jwtToken = jwtService.generateToken(user);
+       var jwtToken = jwtService.generateToken(user);
 
        UserDTO userDTO = userDTOMapper.apply(user);
 
-        return new AuthenticationResponse(userDTO);
+        return new AuthenticationResponse(userDTO, jwtToken);
     }
 
     @Override

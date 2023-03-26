@@ -18,7 +18,7 @@ import java.util.function.Function;
 @Service
 public class JwtServiceImpl implements JwtService {
 
-    private static final String SECRET_KEY = "67566B59703373367638792F423F4528482B4D6251655468576D5A7134743777";
+    private static final String SECRET_KEY = System.getenv("SECRET_KEY");
     @Override
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -31,7 +31,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToekn(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 

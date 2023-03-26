@@ -1,6 +1,7 @@
 package com.blog.domain.user;
 
 import com.blog.domain.enumeration.Role;
+import com.blog.domain.enumeration.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "app_user", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
+@Table(name ="user_tbl", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
 public class AppUser implements UserDetails {
     @Id
     @GeneratedValue
@@ -40,9 +41,17 @@ public class AppUser implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="fk_user_profile_id", referencedColumnName = "id")
-    private UserProfile userProfile;
+    @Column(name="address")
+    private String address;
+
+    @Column(name="municipality_name")
+    private String municipalityName;
+
+    @Column(name="phone_number")
+    private String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
