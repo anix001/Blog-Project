@@ -31,13 +31,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public AuthenticationResponse activateAccount() {
-        UserDetails userDetails = adminService.getCurrentLoggedInUser();
-        AppUser user = (AppUser) userDetailsService.loadUserByUsername(userDetails.getUsername());
-
+        AppUser user = currentUser();
         user.setUserStatus(UserStatus.ACTIVE);
         userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
         UserDTO userDTO = userDTOMapper.apply(user);
         return new AuthenticationResponse(userDTO, jwtToken);
+    }
+
+    @Override
+    public AppUser currentUser() {
+        UserDetails userDetails = adminService.getCurrentLoggedInUser();
+        AppUser user = (AppUser) userDetailsService.loadUserByUsername(userDetails.getUsername());
+        return user;
     }
 }

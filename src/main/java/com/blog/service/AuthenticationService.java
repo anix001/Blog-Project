@@ -9,5 +9,4 @@ public interface AuthenticationService {
     AuthenticationResponse authResponseGenerator(AppUser user);
     AuthenticationResponse register(RegistrationRequest request);
     AuthenticationResponse authenticate(AuthenticationRequest request);
-    AuthenticationResponse login(AuthenticationRequest request);
 }

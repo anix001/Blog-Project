@@ -1,5 +1,6 @@
 package com.blog.resources;
 
+import com.blog.auth.AuthenticationRequest;
 import com.blog.auth.AuthenticationResponse;
 import com.blog.auth.RegistrationRequest;
 import com.blog.service.AuthenticationService;
@@ -21,5 +22,15 @@ public class AuthResources {
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegistrationRequest request){
       return ResponseEntity.ok(authenticationService.register(request));
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
+        return ResponseEntity.ok(authenticationService.authenticate(request));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request){
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 }

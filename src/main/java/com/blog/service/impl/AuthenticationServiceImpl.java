@@ -74,9 +74,5 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return authResponseGenerator(user);
     }
 
-    @Override
-    public AuthenticationResponse login(AuthenticationRequest request) {
-        return authenticate(request);
-    }
 
 }
