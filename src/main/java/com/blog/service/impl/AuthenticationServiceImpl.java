@@ -12,6 +12,8 @@ import com.blog.repository.UserRepository;
 import com.blog.service.AuthenticationService;
 import com.blog.service.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
+    public AuthenticationResponse authResponseGenerator(AppUser user) {
+        String jwtToken = jwtService.generateToken(user);
+        UserDTO userDTO = userDTOMapper.apply(user);
+        return new AuthenticationResponse(userDTO, jwtToken);
+    }
+
+    @Override
     public AuthenticationResponse register(RegistrationRequest request) {
         AppUser user = AppUser.builder()
                 .firstName(request.getFirstName())
@@ -47,25 +56,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
        userRepository.save(user);
 
-       var jwtToken = jwtService.generateToken(user);
-
-       UserDTO userDTO = userDTOMapper.apply(user);
-
-        return new AuthenticationResponse(userDTO, jwtToken);
+        return authResponseGenerator(user);
     }
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        return null;
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+
+        AppUser user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(()-> new UsernameNotFoundException("User not found !!"));
+
+        return authResponseGenerator(user);
     }
 
     @Override
     public AuthenticationResponse login(AuthenticationRequest request) {
-        return null;
+        return authenticate(request);
     }
 
-    @Override
-    public AuthenticationResponse activateAccount() {
-        return null;
-    }
 }
