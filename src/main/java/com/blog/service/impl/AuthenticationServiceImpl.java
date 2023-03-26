@@ -5,9 +5,9 @@ import com.blog.auth.AuthenticationResponse;
 import com.blog.auth.RegistrationRequest;
 import com.blog.domain.enumeration.Role;
 import com.blog.domain.enumeration.UserStatus;
-import com.blog.domain.user.AppUser;
-import com.blog.dto.user.UserDTO;
-import com.blog.dto.user.UserDTOMapper;
+import com.blog.domain.AppUser;
+import com.blog.domain.dto.UserDTO;
+import com.blog.service.mapper.UserDTOMapper;
 import com.blog.repository.UserRepository;
 import com.blog.service.AuthenticationService;
 import com.blog.service.JwtService;
@@ -74,9 +74,5 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return authResponseGenerator(user);
     }
 
-    @Override
-    public AuthenticationResponse login(AuthenticationRequest request) {
-        return authenticate(request);
-    }
 
 }

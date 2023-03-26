@@ -1,7 +1,5 @@
-package com.blog.domain.blog;
+package com.blog.domain;
 
-import com.blog.domain.auditable.Auditable;
-import com.blog.domain.user.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

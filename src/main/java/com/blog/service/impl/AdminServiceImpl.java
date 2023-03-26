@@ -1,6 +1,6 @@
 package com.blog.service.impl;
 
-import com.blog.domain.user.AppUser;
+import com.blog.domain.AppUser;
 import com.blog.repository.UserRepository;
 import com.blog.service.AdminService;
 import org.springframework.security.core.Authentication;

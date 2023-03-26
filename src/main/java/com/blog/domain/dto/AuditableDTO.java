@@ -1,4 +1,4 @@
-package com.blog.dto.auditable;
+package com.blog.domain.dto;
 
 import lombok.Getter;
 import lombok.Setter;

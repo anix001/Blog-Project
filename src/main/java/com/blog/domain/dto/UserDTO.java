@@ -1,4 +1,4 @@
-package com.blog.dto.user;
+package com.blog.domain.dto;
 
 import com.blog.domain.enumeration.Role;
 import com.blog.domain.enumeration.UserStatus;

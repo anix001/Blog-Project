@@ -2,9 +2,9 @@ package com.blog.service.impl;
 
 import com.blog.auth.AuthenticationResponse;
 import com.blog.domain.enumeration.UserStatus;
-import com.blog.domain.user.AppUser;
-import com.blog.dto.user.UserDTO;
-import com.blog.dto.user.UserDTOMapper;
+import com.blog.domain.AppUser;
+import com.blog.domain.dto.UserDTO;
+import com.blog.service.mapper.UserDTOMapper;
 import com.blog.repository.UserRepository;
 import com.blog.service.AdminService;
 import com.blog.service.JwtService;
@@ -31,13 +31,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public AuthenticationResponse activateAccount() {
-        UserDetails userDetails = adminService.getCurrentLoggedInUser();
-        AppUser user = (AppUser) userDetailsService.loadUserByUsername(userDetails.getUsername());
-
+        AppUser user = currentUser();
         user.setUserStatus(UserStatus.ACTIVE);
         userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
         UserDTO userDTO = userDTOMapper.apply(user);
         return new AuthenticationResponse(userDTO, jwtToken);
+    }
+
+    @Override
+    public AppUser currentUser() {
+        UserDetails userDetails = adminService.getCurrentLoggedInUser();
+        AppUser user = (AppUser) userDetailsService.loadUserByUsername(userDetails.getUsername());
+        return user;
     }
 }

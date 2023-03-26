@@ -1,6 +1,6 @@
 package com.blog.auth;
 
-import com.blog.dto.user.UserDTO;
+import com.blog.domain.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
