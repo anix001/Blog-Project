@@ -15,10 +15,10 @@ public class UserDTOMapper implements Function<AppUser, UserDTO> {
                 appUser.getFirstName(),
                 appUser.getEmail(),
                 appUser.getRole(),
-                appUser.getUserProfile().getAddress(),
-                appUser.getUserProfile().getMunicipalityName(),
-                appUser.getUserProfile().getPhoneNumber(),
-                appUser.getUserProfile().getUserStatus()
+                appUser.getAddress(),
+                appUser.getMunicipalityName(),
+                appUser.getPhoneNumber(),
+                appUser.getUserStatus()
         );
     }
 }
