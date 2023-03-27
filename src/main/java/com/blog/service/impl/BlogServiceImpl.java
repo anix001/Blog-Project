@@ -4,6 +4,7 @@ import com.blog.domain.Blog;
 import com.blog.domain.Comment;
 import com.blog.domain.AppUser;
 import com.blog.domain.dto.BlogDTO;
+import com.blog.domain.enumeration.UserStatus;
 import com.blog.exceptionHandling.ApiRequestException;
 import com.blog.service.mapper.BlogDTOMapper;
 import com.blog.repository.BlogRepository;
@@ -64,6 +65,10 @@ public class BlogServiceImpl implements BlogService {
     public BlogDTO store(Long blogId, Blog blog) {
         AppUser user = userService.currentUser();
 
+        if(user.getUserStatus() == UserStatus.PENDING){
+            throw new ApiRequestException("Account is not activated");
+        }
+
         if(blogId != null){
             Blog optionalBlog = blogRepository.findById(blogId)
                     .orElseThrow(()->new ApiRequestException("Blog with id "+ blogId + " not Found"));
@@ -94,10 +99,14 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public void destroy(Long blogId) {
+        AppUser currentUser = userService.currentUser();
+        if(currentUser.getUserStatus() == UserStatus.PENDING){
+            throw new ApiRequestException("Account is not activated");
+        }
         Blog blog= blogRepository.findById(blogId)
                 .orElseThrow(()-> new IllegalStateException("Blog with id "+ blogId + " not Found"));
 
-        AppUser currentUser = userService.currentUser();
+
 
         if(currentUser.getEmail() == blog.getAppUser().getEmail()){
             blogRepository.deleteById(blogId);
@@ -108,6 +117,10 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public BlogDTO comment(Long blogId, Comment comment) {
+        AppUser currentUser = userService.currentUser();
+        if(currentUser.getUserStatus() == UserStatus.PENDING){
+            throw new ApiRequestException("Account is not activated");
+        }
         Blog blog = blogRepository.findById(blogId)
                 .orElseThrow(()-> new IllegalStateException("Blog with id "+ blogId + " not Found"));
         List<Comment> commentList = new ArrayList<>();
