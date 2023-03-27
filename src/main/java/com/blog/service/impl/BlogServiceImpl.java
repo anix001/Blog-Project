@@ -4,6 +4,7 @@ import com.blog.domain.Blog;
 import com.blog.domain.Comment;
 import com.blog.domain.AppUser;
 import com.blog.domain.dto.BlogDTO;
+import com.blog.exceptionHandling.ApiRequestException;
 import com.blog.service.mapper.BlogDTOMapper;
 import com.blog.repository.BlogRepository;
 import com.blog.service.BlogService;
@@ -62,9 +63,10 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public BlogDTO store(Long blogId, Blog blog) {
         AppUser user = userService.currentUser();
+
         if(blogId != null){
             Blog optionalBlog = blogRepository.findById(blogId)
-                    .orElseThrow(()->new IllegalStateException("Blog with id "+ blogId + " not Found"));
+                    .orElseThrow(()->new ApiRequestException("Blog with id "+ blogId + " not Found"));
 
             if(blog.getAppUser().getEmail() == user.getEmail()) {
                 optionalBlog.setTitle(blog.getTitle());
