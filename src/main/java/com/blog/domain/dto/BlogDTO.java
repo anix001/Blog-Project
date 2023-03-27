@@ -18,7 +18,6 @@ public class BlogDTO extends AuditableDTO {
     private String imageUrl;
     private List<Comment> commentList;
 
-
     public BlogDTO(Long id, String title, String description, Long blogCode, String imageUrl, List<Comment> commentList, String createdBy, Date createdDate, String lastModifiedBy, Date lastModifiedDate) {
         super(createdBy, createdDate, lastModifiedBy, lastModifiedDate);
         this.id = id;
