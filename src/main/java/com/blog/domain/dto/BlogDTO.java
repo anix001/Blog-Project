@@ -14,7 +14,6 @@ public class BlogDTO extends AuditableDTO {
     private Long id;
     private String title;
     private String description;
-    private Long blogCode;
     private String imageUrl;
     private List<Comment> commentList;
 
@@ -23,11 +22,9 @@ public class BlogDTO extends AuditableDTO {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.blogCode = blogCode;
         this.imageUrl = imageUrl;
         this.commentList = commentList;
     }
 
-    public BlogDTO(Long id, String title, String description, String imageUrl, List<Comment> commentList, String createdBy, Date createdDate, String lastModifiedBy, Date lastModifiedDate) {
-    }
+
 }

@@ -11,6 +11,7 @@ import com.blog.service.mapper.UserDTOMapper;
 import com.blog.repository.UserRepository;
 import com.blog.service.AuthenticationService;
 import com.blog.service.JwtService;
+import com.blog.service.mapper.UserMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,19 +25,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserDTOMapper userDTOMapper;
+    private final UserMapper userMapper;
 
-    public AuthenticationServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager,  UserDTOMapper userDTOMapper) {
+    public AuthenticationServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, UserDTOMapper userDTOMapper, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
         this.userDTOMapper = userDTOMapper;
+        this.userMapper = userMapper;
     }
 
     @Override
     public AuthenticationResponse authResponseGenerator(AppUser user) {
         String jwtToken = jwtService.generateToken(user);
-        UserDTO userDTO = userDTOMapper.apply(user);
+        UserDTO userDTO = userMapper.domainTODto(user);
         return new AuthenticationResponse(userDTO, jwtToken);
     }
 
