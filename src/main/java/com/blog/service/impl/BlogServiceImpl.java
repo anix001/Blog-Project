@@ -6,10 +6,11 @@ import com.blog.domain.AppUser;
 import com.blog.domain.dto.BlogDTO;
 import com.blog.domain.enumeration.UserStatus;
 import com.blog.exceptionHandling.ApiRequestException;
-import com.blog.service.mapper.BlogDTOMapper;
 import com.blog.repository.BlogRepository;
 import com.blog.service.BlogService;
 import com.blog.service.UserService;
+import com.blog.service.mapper.BlogMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,24 +20,19 @@ import java.util.List;
 @Service
 public class BlogServiceImpl implements BlogService {
     private final BlogRepository blogRepository;
-    private final BlogDTOMapper blogDTOMapper;
     private final UserService userService;
+    private final BlogMapper blogMapper;
 
-    public BlogServiceImpl(BlogRepository blogRepository, BlogDTOMapper blogDTOMapper, UserService userService) {
+    public BlogServiceImpl(BlogRepository blogRepository, UserService userService, BlogMapper blogMapper) {
         this.blogRepository = blogRepository;
-        this.blogDTOMapper = blogDTOMapper;
         this.userService = userService;
+        this.blogMapper = blogMapper;
     }
 
     @Override
     public List<BlogDTO> index() {
         List<Blog> blogList = blogRepository.findAll();
-        List<BlogDTO> response = new ArrayList<>();
-
-        blogList.forEach(blog->{
-            BlogDTO blogDTO = blogDTOMapper.apply(blog);
-            response.add(blogDTO);
-        });
+        List<BlogDTO> response = blogMapper.domainTODtos(blogList);
         return response;
     }
 
@@ -44,7 +40,7 @@ public class BlogServiceImpl implements BlogService {
     public BlogDTO indexById(Long blogId) {
         Blog blog= blogRepository.findById(blogId)
                 .orElseThrow(()-> new IllegalStateException("Blog with id "+ blogId + " not Found"));
-        BlogDTO blogDTO = blogDTOMapper.apply(blog);
+        BlogDTO blogDTO = blogMapper.domainTODto(blog);
         return blogDTO;
     }
 
@@ -52,12 +48,12 @@ public class BlogServiceImpl implements BlogService {
     public List<BlogDTO> indexByUser(Long userId) {
         List<Blog> blogList = blogRepository.getBlogsByUserId(userId);
 
-        List<BlogDTO> response = new ArrayList<>();
+        List<BlogDTO> response = blogMapper.domainTODtos(blogList);
 
-        blogList.forEach(blog->{
-            BlogDTO blogDTO = blogDTOMapper.apply(blog);
-            response.add(blogDTO);
-        });
+//        blogList.forEach(blog->{
+//            BlogDTO blogDTO = blogDTOMapper.apply(blog);
+//            response.add(blogDTO);
+//        });
         return response;
     }
 
@@ -69,11 +65,12 @@ public class BlogServiceImpl implements BlogService {
             throw new ApiRequestException("Account is not activated");
         }
 
+
         if(blogId != null){
             Blog optionalBlog = blogRepository.findById(blogId)
                     .orElseThrow(()->new ApiRequestException("Blog with id "+ blogId + " not Found"));
 
-            if(blog.getAppUser().getEmail() == user.getEmail()) {
+            if(optionalBlog.getAppUser().getEmail() == user.getEmail()) {
                 optionalBlog.setTitle(blog.getTitle());
                 optionalBlog.setDescription(blog.getDescription());
                 optionalBlog.setImageUrl(blog.getImageUrl());
@@ -83,7 +80,7 @@ public class BlogServiceImpl implements BlogService {
             }
 
             blogRepository.save(optionalBlog);
-            BlogDTO blogDTO = blogDTOMapper.apply(optionalBlog);
+            BlogDTO blogDTO = blogMapper.domainTODto(optionalBlog);
             return  blogDTO;
         }else {
             AppUser user1 = new AppUser();
@@ -92,7 +89,7 @@ public class BlogServiceImpl implements BlogService {
             blog.setCreatedDate(new Date());
             blog.setAppUser(user1);
             blogRepository.save(blog);
-            BlogDTO blogDTO = blogDTOMapper.apply(blog);
+            BlogDTO blogDTO = blogMapper.domainTODto(blog);
             return  blogDTO;
         }
     }
@@ -130,7 +127,7 @@ public class BlogServiceImpl implements BlogService {
         blog.setCommentList(commentList);
 
         blogRepository.save(blog);
-        BlogDTO blogDTO = blogDTOMapper.apply(blog);
+        BlogDTO blogDTO = blogMapper.domainTODto(blog);
         return  blogDTO;
     }
 }

@@ -9,6 +9,7 @@ import com.blog.repository.UserRepository;
 import com.blog.service.AdminService;
 import com.blog.service.JwtService;
 import com.blog.service.UserService;
+import com.blog.service.mapper.UserMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -20,13 +21,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final UserDTOMapper userDTOMapper;
+    private final UserMapper userMapper;
 
-    public UserServiceImpl(AdminService adminService, UserDetailsService userDetailsService, UserRepository userRepository, JwtService jwtService, UserDTOMapper userDTOMapper) {
+    public UserServiceImpl(AdminService adminService, UserDetailsService userDetailsService, UserRepository userRepository, JwtService jwtService, UserDTOMapper userDTOMapper, UserMapper userMapper) {
         this.adminService = adminService;
         this.userDetailsService = userDetailsService;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.userDTOMapper = userDTOMapper;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class UserServiceImpl implements UserService {
         user.setUserStatus(UserStatus.ACTIVE);
         userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
-        UserDTO userDTO = userDTOMapper.apply(user);
+        UserDTO userDTO = userMapper.domainTODto(user);
         return new AuthenticationResponse(userDTO, jwtToken);
     }
 
